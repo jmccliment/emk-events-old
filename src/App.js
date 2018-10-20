@@ -52,10 +52,13 @@ const styles = {
 };
 
 class App extends Component {
-  state = {
-    open: false,
-    user: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      user: null
+    };
+  }
 
   componentWillMount() {
     this.props.fetchClasses();
@@ -63,10 +66,8 @@ class App extends Component {
 
   componentDidMount() {
     const {loginSuccessful} = this.props;
-    console.log('mounted');
     this.unregisterAuthObserver = auth.onAuthStateChanged(
       (user) => {
-        console.log('USER', user);
         loginSuccessful(user)
       }
     );

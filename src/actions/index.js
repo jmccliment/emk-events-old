@@ -11,7 +11,7 @@ export const fetchStudents = () => async dispatch => {
   });
 };
 
-export const addStudent = (student) => async dispatch => {
+export const addStudent = (student) => async () => {
   studentsRef.push().set(student);
 };
 
@@ -24,7 +24,7 @@ export const fetchClasses = () => async dispatch => {
   });
 };
 
-export const addClass = (_class) => async dispatch => {
+export const addClass = (_class) => async () => {
   classesRef.push().set(_class);
 };
 
@@ -37,7 +37,7 @@ export const fetchEvents = () => async dispatch => {
   });
 };
 
-export const addEvent = (_event) => async dispatch => {
+export const addEvent = (_event) => async () => {
   eventsRef.push().set(_event);
 };
 
@@ -50,7 +50,7 @@ export const fetchEventTypes = () => async dispatch => {
   });
 };
 
-export const addEventType = (eventType) => async dispatch => {
+export const addEventType = (eventType) => async () => {
   eventTypesRef.push().set(eventType);
 };
 
@@ -86,7 +86,6 @@ export const hideMenu = () => dispatch => {
 };
 
 export const loginSuccessful = user => dispatch => {
-  console.log('action loginSuccessful', user);
   dispatch({
     type: LOGIN_RESPONSE,
     payload: user
