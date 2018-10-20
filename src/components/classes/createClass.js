@@ -31,7 +31,7 @@ class CreateClass extends Component {
   }
 
   render() {
-    const { name, minAge, maxAge } = this.state;
+    // const { name, minAge, maxAge } = this.state;
     return (
       <form onSubmit={this.handleFormSubmit}>
         <TextField id="name" label="Class Name" onChange={this.handleNameChage} />

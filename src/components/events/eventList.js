@@ -23,8 +23,8 @@ class EventList extends Component {
     this.props.fetchEventTypes();
   }
   render() {
-    const { events, eventTypes } = this.props;
-    const { name, eventTypeId, date } = this.state;
+    const { /* events, */ eventTypes } = this.props;
+    // const { name, eventTypeId, date } = this.state;
 
     return (
       <div>

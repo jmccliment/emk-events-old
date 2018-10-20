@@ -35,7 +35,7 @@ class CheckIn extends Component {
 
   render() {
     const { firstName, lastName } = this.state;
-    let { students } = this.props;
+    // let { students } = this.props;
 
     return (
       <div>

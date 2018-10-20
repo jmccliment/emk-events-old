@@ -1,7 +1,7 @@
 import * as firebase from 'firebase';
 import { FirebaseConfig } from './keys';
-import { uiConfig } from './firebaseUi';
-import firebaseui from 'firebaseui';
+// import { uiConfig } from './firebaseUi';
+// import firebaseui from 'firebaseui';
 
 firebase.initializeApp(FirebaseConfig);
 export const provider = new firebase.auth.GoogleAuthProvider();
