@@ -83,4 +83,18 @@ export const hideMenu = () => dispatch => {
   dispatch({
     type: HIDE_MENU
   });
-}
+};
+
+export const loginSuccessful = user => dispatch => {
+  console.log('action loginSuccessful', user);
+  dispatch({
+    type: LOGIN_RESPONSE,
+    payload: user
+  });
+};
+
+export const logoutSuccessful = () => dispatch => {
+  dispatch({
+    type: LOGOUT_RESPONSE
+  });
+};

@@ -1,11 +1,12 @@
 import * as firebase from 'firebase';
-
 import { FirebaseConfig } from './keys';
-
+import { uiConfig } from './firebaseUi';
+import firebaseui from 'firebaseui';
 
 firebase.initializeApp(FirebaseConfig);
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const auth = firebase.auth();
+
 
 const databaseRef = firebase.database().ref();
 export const eventsRef = databaseRef.child('events');

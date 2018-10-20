@@ -6,6 +6,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -21,6 +22,8 @@ import ClassList from './components/classes/classList';
 import EventTypeList from './components/events/eventTypeList';
 import EventList from './components/events/eventList';
 import Menu from './components/menu';
+import { uiConfig } from './config/firebaseUi';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 const styles = {
   menuButton: {
@@ -59,13 +62,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    auth.onAuthStateChanged((user) => {
-      if(user) {
-        this.setState({ user });
+    const {loginSuccessful} = this.props;
+    console.log('mounted');
+    this.unregisterAuthObserver = auth.onAuthStateChanged(
+      (user) => {
+        console.log('USER', user);
+        loginSuccessful(user)
       }
-    });
+    );
   }
 
+  componentWillUnmount() {
+    this.unregisterAuthObserver();
+  }
 
   render() {
     const { classes, menu, showMenu, hideMenu } = this.props;
@@ -91,12 +100,18 @@ class App extends Component {
               </Toolbar>
             </AppBar>
             <div style={{height: '60px'}} />
-
-            <Route path="/checkin" component={CheckIn} />
-            <Route path="/list" component={Listx} />
-            <Route path="/classes" component={ClassList} />
-            <Route path="/eventTypes" component={EventTypeList} />
-            <Route path="/events" component={EventList} />
+            <Grid container spacing={24}>
+              <Grid item xs={6}>
+                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+              </Grid>
+              <Grid item xs={6}>
+                <Route path="/checkin" component={CheckIn} />
+                <Route path="/list" component={Listx} />
+                <Route path="/classes" component={ClassList} />
+                <Route path="/eventTypes" component={EventTypeList} />
+                <Route path="/events" component={EventList} />
+              </Grid>
+            </Grid>
           </div>
 
         </Router>
