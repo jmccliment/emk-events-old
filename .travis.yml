@@ -2,8 +2,9 @@ language: node_js
 node_js:
  - "10"
 script:
-  - ls
+  - build
 install:
   - npm install -g firebase-tools
+  - npm install -g create-react-app
 after-success:
   - firebase deploy -project east-mesa-karate-events -token $FIREBASE_TOKEN
