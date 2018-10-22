@@ -24,27 +24,40 @@ const styles = {
 };
 
 const Menu = props => {
-  const { classes, hideMenu } = props;
+  const { classes, hideMenu, user } = props;
   return (
     <List component="nav">
       <ListItem button className={classes.menuListItem}>
         <Link component='div' to="/checkin" className={classes.menuButtonLink} onClick={ () => hideMenu() } >Check In</Link>
       </ListItem>
-      <ListItem button className={classes.menuListItem}>
-        <Link to="/list" className={classes.menuButtonLink} onClick={ () => hideMenu() }>List Checked in students</Link>
-      </ListItem>
-      <ListItem button className={classes.menuListItem}>
-        <Link to="/classes" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Manage Classes</Link>       
-      </ListItem>
-      <ListItem button className={classes.menuListItem}>
-        <Link to="/eventTypes" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Manage Event Types</Link>
-      </ListItem>
-      <ListItem button className={classes.menuListItem}>
-        <Link to="/events" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Manage Events</Link>         
-      </ListItem>
+      {!user && (
+        <ListItem button className={classes.menuListItem}>
+          <Link to="/logon" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Log on</Link>
+        </ListItem>
+      )}
+      {user && (
+        <ListItem button className={classes.menuListItem}>
+          <Link to="/list" className={classes.menuButtonLink} onClick={ () => hideMenu() }>List Checked in students</Link>
+        </ListItem>
+      )}
+      {user && (
+        <ListItem button className={classes.menuListItem}>
+          <Link to="/classes" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Manage Classes</Link>       
+        </ListItem>
+      )}
+      {user && (
+        <ListItem button className={classes.menuListItem}>
+          <Link to="/eventTypes" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Manage Event Types</Link>
+        </ListItem>
+      )}
+      {user && (
+        <ListItem button className={classes.menuListItem}>
+          <Link to="/events" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Manage Events</Link>         
+        </ListItem>
+      )}
     </List>
   );
 };
 
-const mapStateToProps = () => ({ });
+const mapStateToProps = ({ user }) => ({ user });
 export default withStyles(styles)(connect(mapStateToProps, actions)(Menu));

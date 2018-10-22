@@ -68,7 +68,7 @@ class App extends Component {
     const {loginSuccessful} = this.props;
     this.unregisterAuthObserver = auth.onAuthStateChanged(
       (user) => {
-        loginSuccessful(user)
+        loginSuccessful(user);
       }
     );
   }
