@@ -1,23 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import * as actions from '../actions';
+import Avatar from '@material-ui/core/Avatar';
+import PersonIcon from '@material-ui/icons/Person';
 
 const User = props => {
-  const { user, login, logout } = props;
+  const { user, logout } = props;
   return (
     <div>
-      {user ? 
-        <div>
-          <Typography variant="h6">Welcome, {user.displayName}</Typography>
-          <Button onClick={() => logout()}>Log Out</Button>
-        </div>
-        :
-        <div>
-          <Button onClick={() => login()}>Log In</Button>
-        </div>
-      }
+      {user && user.displayName && user.photoUrl && ( 
+        <Avatar alt={user.displayName} src={user.photoURL} onClick={logout} />
+      )}
+      {user && (!user.displayName || !user.photoUrl) && (
+        <Avatar>
+          <PersonIcon />
+        </Avatar>
+      )}
     </div>
   );
 };

@@ -6,7 +6,6 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 // import List from '@material-ui/core/List';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -22,8 +21,8 @@ import ClassList from './components/classes/classList';
 import EventTypeList from './components/events/eventTypeList';
 import EventList from './components/events/eventList';
 import Menu from './components/menu';
-import { uiConfig } from './config/firebaseUi';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import Login from './components/login';
+import Admin from './components/admin';
 
 const styles = {
   menuButton: {
@@ -78,7 +77,7 @@ class App extends Component {
   }
 
   render() {
-    const { classes, menu, showMenu, hideMenu } = this.props;
+    const { classes, menu, user, showMenu, hideMenu } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
         <Router>
@@ -101,18 +100,25 @@ class App extends Component {
               </Toolbar>
             </AppBar>
             <div style={{height: '60px'}} />
-            <Grid container spacing={24}>
-              <Grid item xs={6}>
-                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
-              </Grid>
-              <Grid item xs={6}>
-                <Route path="/checkin" component={CheckIn} />
-                <Route path="/list" component={Listx} />
-                <Route path="/classes" component={ClassList} />
-                <Route path="/eventTypes" component={EventTypeList} />
-                <Route path="/events" component={EventList} />
-              </Grid>
-            </Grid>
+            {!user && (
+              <Route path="/login" component={Login} />
+            )}
+            <Route path="/checkin" component={CheckIn} />
+            {user && (
+              <Route path="/list" component={Listx} />
+            )}
+            {user && (
+              <Route path="/classes" component={ClassList} />
+            )}
+            {user && (
+              <Route path="/eventTypes" component={EventTypeList} />
+            )}
+            {user && (
+              <Route path="/events" component={EventList} />
+            )}
+            {user && (
+              <Route path="/admin" component={Admin} />
+            )}
           </div>
 
         </Router>
@@ -121,5 +127,5 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({menu}) => ({ menu });
+const mapStateToProps = ({ menu, user }) => ({ menu, user });
 export default withStyles(styles)(connect(mapStateToProps, actions)(App));

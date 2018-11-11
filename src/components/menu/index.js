@@ -24,7 +24,7 @@ const styles = {
 };
 
 const Menu = props => {
-  const { classes, hideMenu, user } = props;
+  const { classes, hideMenu, logout, user } = props;
   return (
     <List component="nav">
       <ListItem button className={classes.menuListItem}>
@@ -32,7 +32,7 @@ const Menu = props => {
       </ListItem>
       {!user && (
         <ListItem button className={classes.menuListItem}>
-          <Link to="/logon" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Log on</Link>
+          <Link to="/login" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Log in</Link>
         </ListItem>
       )}
       {user && (
@@ -53,6 +53,11 @@ const Menu = props => {
       {user && (
         <ListItem button className={classes.menuListItem}>
           <Link to="/events" className={classes.menuButtonLink} onClick={ () => hideMenu() }>Manage Events</Link>         
+        </ListItem>
+      )}
+      {user && (
+        <ListItem button className={classes.menuListItemButton} onClick={ logout }>
+          Log Out
         </ListItem>
       )}
     </List>
