@@ -1,9 +1,7 @@
 import React from 'react';
 import Menu from './menu';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Hidden from '@material-ui/core/Hidden';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 
 const styles = (theme) => ({
   permanentDrawer: {
@@ -25,24 +23,12 @@ const styles = (theme) => ({
 });
 
 const MenuDrawer = ({ open, openMenu, closeMenu, classes, theme }) => {
-  console.log('open', open);
-  console.log('openMenu', openMenu);
-  console.log('closeMenu', closeMenu);
   console.log('classes', classes);
   console.log('theme', theme);
   return (
-    <nav>
-      <Hidden smUp implementation="css">
-        <SwipeableDrawer open={open} onOpen={openMenu} onClose={closeMenu}  className={classes.swipeableDrawer} classes={{paper: classes.swipeableDrawerPaper}} >
-          <Menu />
-        </SwipeableDrawer>
-      </Hidden>
-      <Hidden xsDown implementation="css">
-        <Drawer variant="permanent" className={classes.permanentDrawer} classes={{paper: classes.permanentDrawerPaper}} >
-          <Menu  className={classes.toolbar} />
-        </Drawer>
-      </Hidden>
-    </nav>
+    <SwipeableDrawer open={open} onOpen={openMenu} onClose={closeMenu}  className={classes.swipeableDrawer} classes={{paper: classes.swipeableDrawerPaper}} >
+      <Menu closeMenu={closeMenu} />
+    </SwipeableDrawer>
   )
 };
 

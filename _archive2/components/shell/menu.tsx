@@ -66,7 +66,7 @@ const BuildManageEventTypesMenuItem: () => IMenuItem = () => (
 )
 
 const Menu = (props) => {
-  const { classes, signOut, profile, closeMenu } = props;
+  const { classes, signOut, profile } = props;
   const menuItems: IMenuItem[] = [
     BuildCheckInMenuItem()
     , BuildStudentHomeMenuItem()
@@ -86,7 +86,7 @@ const Menu = (props) => {
         .map((item) => { 
           if(item.path) {
             return (
-              <NavLink to={item.path} onClick={closeMenu} className={classes.navLink} key={item.primaryText}>
+              <NavLink to={item.path} className={classes.navLink} key={item.primaryText}>
                 <ListItem button>
                   <ListItemText primary={item.primaryText} />
                 </ListItem>
@@ -94,7 +94,7 @@ const Menu = (props) => {
             )
           } else if(item.onClick) {
             return (
-              <ListItem button onClick={R.pipe(closeMenu, item.onClick)} key={item.primaryText}>
+              <ListItem button onClick={item.onClick} key={item.primaryText}>
                 <ListItemText primary={item.primaryText} />
               </ListItem>
             )

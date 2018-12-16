@@ -1,32 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { reduxFirestore, getFirestore } from 'redux-firestore';
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
-import { composeWithDevTools } from 'redux-devtools-extension';
-
-import firebaseConfig from './config/firebase';
-import rootReducer from './store/reducers/rootReducer';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const store : any = createStore(rootReducer, composeWithDevTools(
-  applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
-  reduxFirestore(firebaseConfig),
-  reactReduxFirebase(firebaseConfig, {
-    useFirestoreForProfile: true,
-    userProfile: 'users',
-    attachAuthIsReady: true
-  })
-));
+import store from './store/store';
 
-store.firebaseAuthIsReady.then(() => {
+function start() {
   ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'))
-});
+}
+
+store.firebaseAuthIsReady.then(start);
 
 
 
