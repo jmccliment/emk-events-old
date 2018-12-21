@@ -1,6 +1,14 @@
 .App {
   text-align: center;
 }
+.debugging pre {
+  text-align: left;
+  border: 1px solid grey;
+  border-radius: .25rem;
+  background-color: silver;
+  padding: 2rem;
+  margin: 2rem;
+}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
