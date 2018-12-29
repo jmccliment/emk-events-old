@@ -1,3 +1,4 @@
-import store from './store';
+import { store, props } from './store';
 
-export { store };
+export { store, props };
+export default store;
