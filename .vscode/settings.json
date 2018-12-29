@@ -1,9 +1,4 @@
 {
-  "jshint.enable": false,
-  "files.associations": {
-    "*.js": "javascriptreact"
-  },
-  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
   "workbench.colorCustomizations": {
     "statusBar.background": "#4BB84A"
   }
