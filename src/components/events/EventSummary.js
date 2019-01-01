@@ -17,14 +17,15 @@ const styles = {
 };
 
 const EventSummary = (props) => {
-  const { classes } = props;
+  const { classes, event } = props;
 
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Event Title
+          { event.title }
         </Typography>
+        <Typography component="p">{event.date}</Typography>
         <Typography component="p">Posted by Foo Barrington II</Typography>
         <Typography component="p" color="textSecondary">3rd September, 2am</Typography>
       </CardContent>
@@ -33,7 +34,10 @@ const EventSummary = (props) => {
 }
 
 EventSummary.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  event: PropTypes.object.isRequired
 };
+
+
 
 export default withStyles(styles)(EventSummary);
