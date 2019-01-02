@@ -5,6 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types';
 import CardActions from '@material-ui/core/CardActions';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
 const styles = {
   card: {
@@ -18,28 +21,45 @@ const styles = {
 };
 
 const EventDetails = (props) => {
-  const { classes, match } = props;
-  const { id } = match.params;
-
-  return (
-    <Card className={classes.card}>
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Event Title = {id}
-        </Typography>
-        <Typography component="p">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti, cum dolore ipsam soluta ab quia quod dignissimos iusto asperiores illo qui numquam dolor impedit corrupti unde accusamus eveniet voluptate cumque.</Typography>
-      </CardContent>
-      <CardActions>
-        <Typography component="div">Posted by Foo Barrington</Typography>
-        <Typography component="div">2nd September, 2am</Typography>
-      </CardActions>
-    </Card>
-  )
+  const { classes, event } = props;
+  if(event && event.title) {
+    return (
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography className={classes.title} color="textSecondary" gutterBottom>
+            {event.title}
+          </Typography>
+          <Typography component="p">{event.content}</Typography>
+        </CardContent>
+        <CardActions>
+          <Typography component="div">{event.authorFirstName} {event.authorLastName}</Typography>
+          <Typography component="div">{event && event.createdAt && event.createdAt.toString && event.createdAt.toString()}</Typography>
+        </CardActions>
+      </Card>
+    );
+  } else {
+    return (
+      <span>loading...</span>
+    );
+  }
 }
 
 EventDetails.propTypes = {
   classes: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  event: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(EventDetails);
+const mapStateToProps = (state, ownProps) => { 
+  const { id } = ownProps.match.params;
+  const { events } = state.firestore.data;
+  const event = events ? events[id] : {};
+  return {
+    event 
+  };
+};
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: 'events' }])
+)(EventDetails);

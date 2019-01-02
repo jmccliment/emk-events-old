@@ -5,6 +5,8 @@ import SignedOutLinks from './SignedOutLinks';
 import AppBar from '@material-ui/core/AppBar';
 import { Toolbar, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const styles = {
   root: {
@@ -19,18 +21,25 @@ const styles = {
 }
 
 const Navbar = (props) => {
-  const { classes } = props;
+  const { classes, auth } = props;
+  const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />
   return (
     <AppBar position="static">
       <Toolbar>
         <Link to="/" className={classes.link}>
           <Typography variant="h6" color="inherit" className={classes.grow}>East Mesa Karate Events Online</Typography>
         </Link>
-        <SignedInLinks />
-        <SignedOutLinks />
+        {links}
       </Toolbar>
     </AppBar>
   )
 }
 
-export default withStyles(styles)(Navbar);
+const mapStateToProps = (state) => ({
+  auth: state.firebase.auth
+});
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(Navbar);

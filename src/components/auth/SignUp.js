@@ -1,10 +1,12 @@
-//*/
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const styles = (theme) => ({
   container: {
@@ -36,8 +38,8 @@ class SignUp extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-
+    const { auth, classes } = this.props;
+    if (auth.uid) return <Redirect to='/' />
     return (
       <div className={classes.container}>
         <form onSubmit={this.handleSubmit}>
@@ -55,40 +57,11 @@ class SignUp extends Component {
   }
 }
 
-export default withStyles(styles)(SignUp);
+const mapStateToProps = (state, ownProps) => ({
+  auth: state.firebase.auth
+})
 
-//*/
-
-/*/
-import React, { Component } from 'react'
-
-class SignIn extends Component {
-  state = {
-
-  }
-
-  handleChange = (e) => console.log(`changed`, e);
-  handleSubmit = (e) => console.log(`submitted`, e);
-
-  render() {
-    return (
-      <div className="container">
-        <form className="white" onsubmit={this.handleSubmit}>
-          <h5 className="grey-text text-darken-3">Sign In</h5>
-          <div className="input-field">
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" onChange={this.handleChange} />
-          </div>
-          <div className="input-field">
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" onChange={this.handleChange} />
-          </div>
-          <div className="input-field"><button className="btn pink lighten-z z-depth-0">Login</button></div>
-        </form>
-      </div>
-    )
-  }
-}
-
-export default SignIn
-//*/
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(SignUp);

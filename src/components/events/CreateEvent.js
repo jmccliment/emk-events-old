@@ -1,10 +1,11 @@
-//*/
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { createEvent } from '../../store/events';
+import { connect } from 'react-redux';
 
 const styles = (theme) => ({
   container: {
@@ -30,7 +31,7 @@ class CreateEvent extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+    this.props.createEvent(this.state);
   }
 
   render() {
@@ -51,4 +52,11 @@ class CreateEvent extends Component {
   }
 }
 
-export default withStyles(styles)(CreateEvent);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createEvent: (event) => dispatch(createEvent(event))
+  }
+};
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(CreateEvent));
