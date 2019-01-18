@@ -7,13 +7,13 @@ import { compose } from 'redux';
 import { signOut } from '../../store/actions/authActions';
 
 const SignedInLinks = (props) => {
-  const { classes, signOut } = props;
+  const { classes, signOut, profile } = props;
   return (
     <ul className={classes.linkList}>
       <li className={classes.linkListItem}><NavLink className={classes.linkListItemLink} to='/project/new'>New Project</NavLink></li>
       <li className={classes.linkListItem}><NavLink className={classes.linkListItemLink} to='/events/new'>New Event</NavLink></li>
       <li className={classes.linkListItem}><a onClick={signOut}>Log Out</a></li>
-      <li className={classes.linkListItem}><NavLink to='/'><Avatar>EMK</Avatar></NavLink></li>
+      <li className={classes.linkListItem}><NavLink to='/'><Avatar>{profile.initials}</Avatar></NavLink></li>
     </ul>
   );
 }
@@ -26,4 +26,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   addStyles,
   connect(mapStateToProps, mapDispatchToProps)
-)(SignedInLinks);
+)(SignedInLinks); 

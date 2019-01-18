@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { createEvent } from '../../store/events';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { RedirectIfUserIsNotSignedIn } from '../routing/RouteGuard';
 
 const styles = (theme) => ({
   container: {
@@ -18,6 +20,7 @@ const styles = (theme) => ({
     width: 200,
   }
 });
+
 
 class CreateEvent extends Component {
   state = {
@@ -32,26 +35,34 @@ class CreateEvent extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.createEvent(this.state);
+    this.props.history.push('/');
   }
 
   render() {
     const { classes } = this.props;
-
     return (
-      <div className={classes.container}>
-        <form onSubmit={this.handleSubmit}>
-          <Typography variant="h4" color="textSecondary" gutterBottom>
-            Create new event
-          </Typography>
-          <TextField label="Title" type="text" id="title" className={classes.textField} onChange={this.handleChange} />
-          <TextField label="Event Content" multiline type="text" id="content" className={classes.textField} onChange={this.handleChange} />
-          <Button color="primary" onClick={this.handleSubmit}>Create</Button>
-        </form>
-      </div>
+      <RedirectIfUserIsNotSignedIn to='/signin'>
+        <div className={classes.container}>
+          <form onSubmit={this.handleSubmit}>
+            <Typography variant="h4" color="textSecondary" gutterBottom>
+              Create new event
+            </Typography>
+            <TextField label="Title" type="text" id="title" className={classes.textField} onChange={this.handleChange} />
+            <TextField label="Event Content" multiline type="text" id="content" className={classes.textField} onChange={this.handleChange} />
+            <Button color="primary" onClick={this.handleSubmit}>Create</Button>
+          </form>
+        </div>
+      </RedirectIfUserIsNotSignedIn>
     )
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -59,4 +70,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(CreateEvent));
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(styles)
+)(CreateEvent);

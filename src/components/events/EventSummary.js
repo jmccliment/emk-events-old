@@ -26,7 +26,7 @@ const EventSummary = (props) => {
           { event.title }
         </Typography>
         <Typography component="p">{event.date}</Typography>
-        <Typography component="p">Posted by Foo Barrington II</Typography>
+        <Typography component="p">Posted by {event.authorFirstName} {event.authorLastName}</Typography>
         <Typography component="p" color="textSecondary">3rd September, 2am</Typography>
       </CardContent>
     </Card>

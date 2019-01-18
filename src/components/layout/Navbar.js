@@ -21,8 +21,8 @@ const styles = {
 }
 
 const Navbar = (props) => {
-  const { classes, auth } = props;
-  const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />
+  const { classes, auth, profile } = props;
+  const links = auth.uid ? <SignedInLinks profile={profile} /> : <SignedOutLinks />
   return (
     <AppBar position="static">
       <Toolbar>
@@ -36,7 +36,8 @@ const Navbar = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.firebase.auth
+  auth: state.firebase.auth,
+  profile: state.firebase.profile
 });
 
 export default compose(

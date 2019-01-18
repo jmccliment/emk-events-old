@@ -34,13 +34,13 @@ class CreateProject extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(this.state);
     this.props.createProject(this.state);
+    this.props.history.push('/');
   }
 
   render() {
     const { classes, auth } = this.props;
-    if(!auth.uid) return <Redirect to='/signin' />
+    if (!auth.uid) return <Redirect to='/signin' />
     return (
       <div className={classes.container}>
         <form onSubmit={this.handleSubmit}>
@@ -70,5 +70,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withStyles(styles)  
+  withStyles(styles)
 )(CreateProject);

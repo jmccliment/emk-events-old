@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { signUp } from '../../store/actions/authActions';
 
 const styles = (theme) => ({
   container: {
@@ -34,11 +35,12 @@ class SignUp extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+    this.props.signUp(this.state);
   }
 
   render() {
-    const { auth, classes } = this.props;
+    const { auth, authError, classes } = this.props;
+
     if (auth.uid) return <Redirect to='/' />
     return (
       <div className={classes.container}>
@@ -46,11 +48,12 @@ class SignUp extends Component {
           <Typography variant="h4" color="textSecondary" gutterBottom>
             Sign Up
           </Typography>
-          <TextField label="Email" type="email" id="email" className={classes.textField} onChange={this.handleChange} />
+          <TextField label="Email" type="email" id="email" className={classes.textField} onChange={this.handleChange}  />
           <TextField label="Password" type="password" id="password" className={classes.textField} onChange={this.handleChange} />
           <TextField label="Last Name" type="text" id="lastName" className={classes.textField} onChange={this.handleChange} />
           <TextField label="First Name" type="text" id="firstName" className={classes.textField} onChange={this.handleChange} />
           <Button color="primary" onClick={this.handleSubmit}>Sign Up</Button>
+          <Typography>{authError}</Typography>
         </form>
       </div>
     )
@@ -58,10 +61,15 @@ class SignUp extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  auth: state.firebase.auth
+  auth: state.firebase.auth,
+  authError: state.auth.authError
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  signUp: (newUser) => dispatch(signUp(newUser))
 })
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles)
 )(SignUp);

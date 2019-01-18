@@ -11,23 +11,19 @@ const createEvent = (event) => {
       authorId: 12345,
       createdAt: new Date()
     }).then(() => {
-      dispatch({type: types.CREATE_EVENT, payload: event})
+      dispatch({ type: types.CREATE_EVENT, payload: event })
     }).catch((err) => {
-      dispatch({type: types.CREATE_EVENT_ERROR, payload: err})
+      dispatch({ type: types.CREATE_EVENT_ERROR, payload: err })
     })
   }
 }
 
 const initState = {
-  events: [
-    { id: '1', title:  'Some Event', date: '1/12/19' },
-    { id: '2', title:  'Some Other Event', date: '2/12/19' },
-    { id: '3', title:  'Yet Another Event', date: '3/12/19' }
-  ]
+  events: []
 };
 
 const reducer = (state = initState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case types.CREATE_EVENT:
       console.log('created event');
       console.table(action.payload);

@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { RedirectIfUserIsNotSignedIn } from '../routing/RouteGuard';
 
 const styles = {
   card: {
@@ -22,24 +23,29 @@ const styles = {
 
 const EventDetails = (props) => {
   const { classes, event } = props;
+  
   if(event && event.title) {
     return (
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography className={classes.title} color="textSecondary" gutterBottom>
-            {event.title}
-          </Typography>
-          <Typography component="p">{event.content}</Typography>
-        </CardContent>
-        <CardActions>
-          <Typography component="div">{event.authorFirstName} {event.authorLastName}</Typography>
-          <Typography component="div">{event && event.createdAt && event.createdAt.toString && event.createdAt.toString()}</Typography>
-        </CardActions>
-      </Card>
+      <RedirectIfUserIsNotSignedIn  to='/signin'>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              {event.title}
+            </Typography>
+            <Typography component="p">{event.content}</Typography>
+          </CardContent>
+          <CardActions>
+            <Typography component="div">{event.authorFirstName} {event.authorLastName}</Typography>
+            <Typography component="div">{event && event.createdAt && event.createdAt.toString && event.createdAt.toString()}</Typography>
+          </CardActions>
+        </Card>
+      </RedirectIfUserIsNotSignedIn>
     );
   } else {
     return (
-      <span>loading...</span>
+      <RedirectIfUserIsNotSignedIn  to='/signin'>
+        <span>loading...</span>
+      </RedirectIfUserIsNotSignedIn>
     );
   }
 }
