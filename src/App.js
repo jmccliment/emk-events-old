@@ -8,6 +8,10 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import CreateProject from './components/projects/CreateProject';
 import CreateEvent from './components/events/CreateEvent';
+import EventTypeDetails from './components/eventTypes/EventTypeDetails';
+import EventTypeList from './components/eventTypes/EventTypeList';
+
+import FilterableSelectableStudentList from './components/students/SelectableStudentList';
 
 class App extends Component {
   render() {
@@ -20,9 +24,12 @@ class App extends Component {
             <Route exact path='/project/new' component={CreateProject} />
             <Route exact path='/events/new' component={CreateEvent} />
             <Route path='/project/:id' component={ProjectDetails} />
+            <Route exact path='/eventTypes' component={EventTypeList} />
             <Route path='/events/:id' component={EventDetails} />
+            <Route path='/eventTypes/:id' component={EventTypeDetails} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
+            <Route path='/ssltest' component={FilterableSelectableStudentList} />
           </Switch>
         </div>
       </BrowserRouter>

@@ -6,13 +6,13 @@ import ProjectList from '../projects/ProjectList'
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import { Redirect } from 'react-router-dom';
+import { RedirectIfUserIsNotSignedIn } from '../routing/RouteGuard';
 
 class Dashboard extends Component {
   render() {
-    const { projects, events, eventTypes, auth, notifications } = this.props;
-    if (!auth.uid) return <Redirect to='/signin' /> //ROUTE GUARD
+    const { projects, events, eventTypes, notifications } = this.props;
     return (
+      <RedirectIfUserIsNotSignedIn to='/signin'>
       <div className="dashboard container">
         <div className="row">
           <div className="col s12 m6">
@@ -37,6 +37,7 @@ class Dashboard extends Component {
           </div>
         </div>
       </div>
+      </RedirectIfUserIsNotSignedIn>
     )
   }
 }
@@ -46,7 +47,6 @@ const mapStateToProps = (state) => {
     projects: state.firestore.ordered.projects,
     events: state.firestore.ordered.events, 
     eventTypes: state.firestore.ordered.eventTypes,
-    auth: state.firebase.auth,
     notifications: state.firestore.ordered.notifications
   };
 };
