@@ -1,88 +1,46 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-
-
-const StudentSummaryCard = (props) => {
-  const { student } = props;
-
-  return (
-    <Card>
-      <CardContent>
-        <Typography>{student.fullName}</Typography>
-      </CardContent>
-      <CardActions>
-        <button onClick={(e) => { e.preventDefault(); alert('foo'); }}>foo</button>
-      </CardActions>
-    </Card>
-  );
-}
-
-const StudentListItem = (props) => {
-  const { student, onSelect } = props;
-
-  return (
-    <ListItem button onClick={() => onSelect(student)}>
-      <StudentSummaryCard student={student} />
-    </ListItem>
-  )
-};
-
-
-const StudentList = (props) => {
-  const { students, onSelect } = props;
-
-  return (
-    <List>
-      {students && students.map((student, index) => {
-        return (
-          <StudentListItem student={student} key={index} onSelect={onSelect} />
-        );
-      })}
-    </List>
-  )
-}
-
+import StudentList from './StudentList';
+import { log } from '../../logging/Logger';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
 const students = [
-  { fullName: 'Abby Abson' },
-  { fullName: 'Billy Brett' },
-  { fullName: 'Charlie Chaplain' },
-  { fullName: 'Dave Duchovney' },
-  { fullName: 'Ebenezer Ecuban' },
+  { firstName: 'Abby', lastName: 'Abson', rank: 'white' },
+  { firstName: 'Billy', lastName: 'Brett', rank: 'yellow' },
+  { firstName: 'Charlie', lastName: 'Chaplain', rank: 'orange' },
+  { firstName: 'Dave', lastName: 'Duchovney', rank: 'purple' },
+  { firstName: 'Ebenezer', lastName: 'Ecuban', rank: 'blue' },
+  { firstName: 'Frank', lastName: 'Furter', rank: 'green' },
+  { firstName: 'Gorilla', lastName: 'Grodd', rank: 'brown' },
+  { firstName: 'Harry', lastName: 'Houdini', rank: 'red' },
+  { firstName: 'Isaac', lastName: 'Isaacson', rank: 'second-red' },
+  { firstName: 'Jumping', lastName: 'Jackflash', rank: 'black', grade: '1st' },
+  { firstName: 'Klif', lastName: 'Kingsbury', rank: 'black', degree: '1st', grade: '1st' },
+  { firstName: 'Larry', lastName: 'Lovell', rank: 'black', degree: '2nd', grade: '3rd' },
+
 ];
 
-class FilterableStudentList extends React.Component {
+const ranks = ['white', 'yellow', 'orange', 'purple', 'blue', 'green', 'brown', 'red', 'second-red', 'black'];
 
-  onSelect = ({ fullName }) => alert(`${fullName} clicked.`);
+const onClick = ({ fullName }) => log(`${fullName} clicked.`);
 
+const addFullName = () => (student) => ({ ...{ fullName: `${student.firstName} ${student.lastName}` }, ...student });
+const orderStudents = () => (lhs, rhs) => ranks.indexOf(lhs.rank) - ranks.indexOf(rhs.rank);
+const FSL = ({ students }) => <>{students && <StudentList students={students.map(addFullName()).sort(orderStudents())} onClick={onClick} buttonListItem={true} />}</>;
 
-
-  state = {
-    filter: ''
+const mapStateToProps = (state) => {
+  return {
+    students: state.firestore.ordered.students
   }
+};
 
-  handleChange = (e) => this.setState({
-    [e.target.id]: e.target.value
-  });
+const mapDispatchToProps = () => ({});
 
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'students' }
+  ])
+)(FSL);
 
-  render() {
-    const { filter } = this.state
-    const filteredStudents = students.filter((student) => student.fullName.toUpperCase().indexOf(filter.toUpperCase()) >= 0);
-    return (
-      <div>
-        <h2>boom</h2>
-        <div><input type="text" id="filter" onChange={this.handleChange} /></div>
-        {students && <StudentList onSelect={this.onSelect} students={filteredStudents} />}
-      </div>
-    )
-  }
-}
-
-export default FilterableStudentList;

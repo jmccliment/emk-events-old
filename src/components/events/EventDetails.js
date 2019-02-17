@@ -23,10 +23,10 @@ const styles = {
 
 const EventDetails = (props) => {
   const { classes, event } = props;
-  
-  if(event && event.title) {
+
+  if (event && event.title) {
     return (
-      <RedirectIfUserIsNotSignedIn  to='/signin'>
+      <RedirectIfUserIsNotSignedIn to='/signin'>
         <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
@@ -43,7 +43,7 @@ const EventDetails = (props) => {
     );
   } else {
     return (
-      <RedirectIfUserIsNotSignedIn  to='/signin'>
+      <RedirectIfUserIsNotSignedIn to='/signin'>
         <span>loading...</span>
       </RedirectIfUserIsNotSignedIn>
     );
@@ -55,12 +55,12 @@ EventDetails.propTypes = {
   event: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => { 
+const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps.match.params;
   const { events } = state.firestore.data;
   const event = events ? events[id] : {};
   return {
-    event 
+    event
   };
 };
 
