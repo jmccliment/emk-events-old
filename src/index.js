@@ -12,16 +12,16 @@ import { reduxFirestore, getFirestore } from 'redux-firestore';
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import firebaseConfig from './config/firebaseConfig';
 
-const store = createStore(rootReducer, 
+const store = createStore(rootReducer,
   compose(
     applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
     reduxFirestore(firebaseConfig),
     reactReduxFirebase(firebaseConfig, { useFirestoreForProfile: true, userProfile: 'users', attachAuthIsReady: true }),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+    window.navigator.userAgent.includes('Chrome') ?
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : compose)
 );
 
-store.firebaseAuthIsReady.then(() => 
+store.firebaseAuthIsReady.then(() =>
   ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'))
 );
 // If you want your app to work offline and load faster, you can change
